@@ -7,17 +7,29 @@ function DadosUsuario({ send, validacoes }) {
 
     const [erro, setErro] = useState({ senha: { valido: true, texto: "" } })
 
-    function validarCampos(event){
-        const {name, value} = event.target;
-        const novoEstado = {...erro};
+    function validarCampos(event) {
+        const { name, value } = event.target;
+        const novoEstado = { ...erro };
         novoEstado[name] = validacoes[name](value);
         setErro(novoEstado);
     }
+
+    function possoenviar() {
+        for (let campo in erro) {
+            if (!erro[campo].valido) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault();
-                send({ email, senha });
+                if (possoenviar()) {
+                    send({ email, senha });
+                }
             }}>
 
             <TextField
@@ -26,6 +38,7 @@ function DadosUsuario({ send, validacoes }) {
                     setEmail(event.target.value);
                 }}
                 id="email"
+                name='email'
                 label="E-mail"
                 type="email"
                 required
@@ -56,8 +69,9 @@ function DadosUsuario({ send, validacoes }) {
                 type="submit"
                 variant="contained"
                 color="primary"
-                fullWidth>
-                Cadastrar
+                fullWidth
+            >
+                Próximo
             </Button>
         </form>
     )

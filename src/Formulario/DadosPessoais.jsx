@@ -8,20 +8,30 @@ function DadosPessoais({ send, validacoes }) {
     const [cpf, setCpf] = useState("");
     const [promocoes, setPromocoes] = useState(true);
     const [novidades, setNovidades] = useState(true);
-    const [erro, setErro] = useState({ cpf: { valido: true, texto: "" } })
+    const [erro, setErro] = useState({ cpf: { valido: true, texto: "" }, nome: { valido: true, texto: "" } })
 
-    function validarCampos(event){
-        const {name, value} = event.target;
-        const novoEstado = {...erro};
+    function validarCampos(event) {
+        const { name, value } = event.target;
+        const novoEstado = { ...erro };
         novoEstado[name] = validacoes[name](value);
         setErro(novoEstado);
     }
 
+    function possoenviar() {
+        for (let campo in erro) {
+            if (!erro[campo].valido) {
+                return false;
+            }
+        }
+        return true;
+    }
     return (
         <form
             onSubmit={(event) => {
                 event.preventDefault(); // Prevenindo o comportamento padrão do HTML em recarregar toda a página em formulários
-                send({ nome, sobrenome, cpf, novidades, promocoes })
+                if (possoenviar()) {
+                    send({ nome, sobrenome, cpf, novidades, promocoes })
+                }
             }}>
 
             <TextField
@@ -29,8 +39,12 @@ function DadosPessoais({ send, validacoes }) {
                 onChange={(event) => {
                     setNome(event.target.value)
                 }}
+                onBlur={validarCampos}
+                error={!erro.nome.valido}
+                helperText={erro.nome.texto}
                 id="Nome"
                 label="Nome"
+                name="Nome"
                 required
                 variant="outlined"
                 margin="normal"
@@ -43,6 +57,7 @@ function DadosPessoais({ send, validacoes }) {
                     setSobrenome(event.target.value);
                 }}
                 id="Sobrenome"
+                name="Sobrenome"
                 label="Sobrenome"
                 required
                 variant="outlined"
@@ -102,7 +117,7 @@ function DadosPessoais({ send, validacoes }) {
                     type="submit"
                     variant="contained"
                     color="primary">
-                    Cadastrar
+                    Próximo
                 </Button>
 
                 <Button

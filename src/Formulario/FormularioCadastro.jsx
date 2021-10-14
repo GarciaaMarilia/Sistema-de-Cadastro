@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DadosPessoais from './DadosPessoais';
 import DadosUsuario from './DadosUsuario';
 import DadosEntrega from './DadosEntrega'
-import { Step, Stepper, Typography } from '@material-ui/core';
-import { StepLabel } from '@material-ui/core';
+import { Step, Stepper, Typography, StepLabel } from '@material-ui/core';
 
 function FormularioCadastro({ send, validacoes }) {
     const [etapaAtual, setEtapaAtual] = useState(0);
@@ -16,9 +15,9 @@ function FormularioCadastro({ send, validacoes }) {
     })
 
     const formularios = [
-        <DadosUsuario send={coletarDados} validacoes={validacoes}/>,
+        <DadosUsuario send={coletarDados} validacoes={validacoes} />,
         <DadosPessoais send={coletarDados} validacoes={validacoes} />,
-        <DadosEntrega send={coletarDados} validacoes={validacoes}/>,
+        <DadosEntrega send={coletarDados} validacoes={validacoes} />,
         <Typography variant="h5" align="center">Obrigada pelo cadastro!</Typography>
     ];
 
