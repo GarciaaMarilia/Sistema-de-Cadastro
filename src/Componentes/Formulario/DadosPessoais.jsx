@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { TextField, Button, Switch, FormControlLabel } from '@material-ui/core';
+import ValidacoesCadastro from '../../Context/ValidacoesCadastro';
 import Stack from '@mui/material/Stack';
 
-function DadosPessoais({ send, validacoes }) {
+function DadosPessoais({ send }) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [cpf, setCpf] = useState("");
     const [promocoes, setPromocoes] = useState(true);
     const [novidades, setNovidades] = useState(true);
     const [erro, setErro] = useState({ cpf: { valido: true, texto: "" }, nome: { valido: true, texto: "" } })
+
+    const validacoes = useContext(ValidacoesCadastro);
 
     function validarCampos(event) {
         const { name, value } = event.target;

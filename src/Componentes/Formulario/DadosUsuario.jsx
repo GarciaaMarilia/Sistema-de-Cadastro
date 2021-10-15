@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import ValidacoesCadastro from '../../Context/ValidacoesCadastro';
 import { Button, TextField } from '@material-ui/core';
 
-function DadosUsuario({ send, validacoes }) {
+function DadosUsuario({ send }) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
     const [erro, setErro] = useState({ senha: { valido: true, texto: "" } })
+
+    const validacoes = useContext(ValidacoesCadastro);
 
     function validarCampos(event) {
         const { name, value } = event.target;
